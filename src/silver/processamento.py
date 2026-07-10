@@ -1,7 +1,9 @@
-# src/silver/processamento.py — imports corrigidos
+# src/silver/processamento.py
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date, round as spark_round
 from delta.tables import DeltaTable
+from src.quality.validacoes import gate_qualidade
 import logging
 
 logger = logging.getLogger(__name__)
@@ -17,6 +19,7 @@ def processar_silver_serie(
     """
     Lê do Bronze, limpa e tipa a série temporal.
     MERGE por (data, codigo_serie) garante idempotência.
+    Gate de qualidade antes do MERGE.
     """
     logger.info(f"Silver: processando {nome_serie}")
 
@@ -31,6 +34,9 @@ def processar_silver_serie(
         .filter(col("data").isNotNull() & col("valor").isNotNull())
         .dropDuplicates(["data", "codigo_serie"])
     )
+
+    # ── Gate de qualidade antes do MERGE ──────────────────────
+    gate_qualidade(silver_df, f"silver_{nome_serie}")
 
     if DeltaTable.isDeltaTable(spark, caminho_silver):
         delta = DeltaTable.forPath(spark, caminho_silver)
@@ -53,7 +59,7 @@ def processar_todas_series(
     caminho_bronze_base: str,
     caminho_silver_base: str,
     data_ref: str
-) -> dict[str, int]:
+) -> dict:
     from src.extract.bacen_api import SERIES
 
     contagens = {}
