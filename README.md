@@ -61,6 +61,20 @@ python -m src.extract.bacen_api
 - Colunas: `media_mensal`, `minimo_mensal`, `maximo_mensal`, `desvio_padrao`
 - Idempotência: overwrite completo
 
+
+## Qualidade de Dados
+
+Cada camada possui um gate de qualidade automático:
+
+| Check | Bronze | Silver | Gold |
+|-------|--------|--------|------|
+| Volume mínimo > 0 | ✅ | ✅ | ✅ |
+| Nulos em `data` e `valor` | ✅ | ✅ | — |
+| Valores negativos | — | ✅ | ✅ |
+| Duplicatas por `(data, codigo_serie)` | — | ✅ | — |
+
+Pipeline interrompido automaticamente se qualquer check crítico falhar.
+
 ## Decisões técnicas
 
 **Por que Delta Lake em vez de Parquet puro?**
