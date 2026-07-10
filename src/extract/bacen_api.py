@@ -58,7 +58,8 @@ def extrair_todas_series(
         try:
             pdf = extrair_serie_bacen(codigo, data_inicio, data_fim)
             sdf = spark.createDataFrame(pdf)
-            sdf = sdf.withColumn("nome_serie", __import__("pyspark.sql.functions", fromlist=["lit"]).lit(nome))
+            from pyspark.sql.functions import lit
+            sdf = sdf.withColumn("nome_serie", lit(nome))
             resultados[nome] = sdf
             logger.info(f"Série {nome}: convertida para Spark DataFrame")
         except Exception as e:

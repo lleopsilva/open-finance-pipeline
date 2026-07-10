@@ -1,5 +1,6 @@
 # src/silver/processamento.py
-from pyspark.sql.functions import col, to_date, round as spark_round
+from pyspark.sql import SparkSession  # manter SparkSession, remover só DataFrame
+from pyspark.sql.functions import col, to_date, trim, upper, when
 from delta.tables import DeltaTable
 import logging
 
