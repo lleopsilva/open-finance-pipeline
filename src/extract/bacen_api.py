@@ -3,8 +3,6 @@
 import requests
 import pandas as pd
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.types import StructType, StructField, StringType, DoubleType
-from datetime import datetime, timedelta
 import logging
 
 logger = logging.getLogger(__name__)

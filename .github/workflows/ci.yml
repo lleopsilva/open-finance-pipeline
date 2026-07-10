@@ -29,4 +29,4 @@ jobs:
       - name: Verificar qualidade do código
         run: |
           pip install flake8
-          flake8 src/ dags/ --max-line-length=100 --ignore=E501
+          flake8 src/ dags/ --max-line-length=100 --ignore=E221,E241,W292,W503

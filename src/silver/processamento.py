@@ -1,6 +1,4 @@
 # src/silver/processamento.py
-
-from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import col, to_date, round as spark_round
 from delta.tables import DeltaTable
 import logging

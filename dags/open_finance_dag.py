@@ -67,7 +67,7 @@ def open_finance_pipeline():
 
         @task(task_id="extrair_series_bacen")
         def extrair_series(data_ref: str) -> dict:
-            from src.extract.bacen_api import extrair_todas_series, SERIES
+            from src.extract.bacen_api import extrair_todas_series
             from pyspark.sql import SparkSession
 
             # Converter data_ref para formato BACEN (DD/MM/YYYY)
