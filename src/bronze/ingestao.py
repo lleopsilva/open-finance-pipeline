@@ -1,5 +1,5 @@
 # src/bronze/ingestao.py
-
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import current_timestamp, lit
 from src.quality.validacoes import gate_qualidade
 import logging
